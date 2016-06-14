@@ -3,13 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Src.Features.Home
 {
-    [Route("[controller]")]
     public class HomeController : Controller
     {
-        [Route("")]
-        public Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-            return Task.FromResult(View() as IActionResult);
+            return View();
         } 
     }
 }

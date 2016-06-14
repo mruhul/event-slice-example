@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace BookStore.Web
+namespace BookWorm.Web
 {
     public class Program
     {
@@ -15,6 +15,7 @@ namespace BookStore.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseWebRoot(Directory.GetCurrentDirectory() + "\\public")
                 .Build();
 
             host.Run();

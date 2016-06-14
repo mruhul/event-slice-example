@@ -1,3 +1,5 @@
 Src/bin
 Src/obj
 Src/project.lock.json
+Src/.vs
+Src/Public

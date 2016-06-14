@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Src.Infrastructure.ViewLocationExpanders;
 
-namespace BookStore.Web
+namespace BookWorm.Web
 {
     public class Startup
     {
@@ -24,8 +24,10 @@ namespace BookStore.Web
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
-                
+
             }
+
+            app.UseStaticFiles("/public");
 
             app.UseMvc(routes =>
             {
