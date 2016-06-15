@@ -1,0 +1,23 @@
+@import '../../../assets/css/variables.scss';
+
+nav.top-nav {
+    background: #000;
+
+    div.page-shell {
+        overflow: hidden;
+    }
+
+    a {
+        color: #fff;
+        font-weight: 500;
+        text-decoration: none;
+        padding: 8px 20px;
+        display: block;
+        float: left;
+        border-right: 1px solid #fff;
+    }
+
+    a:first-child {
+        background: url('/public/icon-home.svg') no-repeat 10px 7px;
+    }
+}

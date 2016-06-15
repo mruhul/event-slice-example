@@ -1,0 +1,18 @@
+.category-menu {
+    overflow: hidden;
+
+    a {
+        display: block;
+        color: #000;
+        font-weight: 500;
+        border-bottom: 1px solid #000;
+        padding: 10px 15px;
+        text-decoration: none;
+        font-weight: 600;
+
+        &:hover{
+            color: #fff;
+            background-color: #333;
+        }
+    }
+}

@@ -3,118 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <style>
-        body, p, h1, h2, h3, h4, h5, h6 {
-            padding: 0;
-            margin: 0;
-            border: 0;
-            font-weight: normal;
-            font-size: 100%;
-        }
-         body {
-             font-family: Tahoma, Verdana, Arial;
-             font-size: 100%;
-            text-align: center;
-         }
-
-         nav.top-nav {
-             background: #000;
-         }
-
-         nav.top-nav div.page-shell {
-             overflow: hidden;
-         }
-
-         nav.top-nav a {
-             color: #fff;
-             font-weight: 500;
-             text-decoration: none;
-             padding: 8px 20px;
-             display: block;
-             float: left;
-             border-right: 1px solid #fff;
-         }
-
-         nav.top-nav a:first-child {
-             background: url('/public/img/icon-home.svg') no-repeat 10px 7px;
-         }
-
-         .page-shell {
-             width: 975px;
-             text-align: left;
-             margin: 0 auto;
-         }
-
-         .page-header {
-             border-bottom: 5px solid #000;
-             padding: 15px 0;
-         }
-
-         .page-header h1 {
-             font-size: 45px;
-             font-weight: 600;
-             padding-left: 60px;
-             background: url(/public/Img/logo.svg) no-repeat;
-             margin-bottom: 0;
-         }
-
-         .page-main {
-             box-sizing: border-box;
-             padding: 25px 0;
-             min-height: 300px;
-         }
-
-         .page-footer {
-             border-top: 5px dotted #000;
-             padding: 15px 0;
-         }
-
-         .two-col {
-             overflow: hidden;
-         }
-
-         .two-col .col-1 {
-             box-sizing: border-box;
-             float: left;
-             width: 250px;
-             padding-right: 25px;
-         }
-
-         .two-col .col-2 {
-             box-sizing: border-box;
-             float: left;
-             width: 715px;
-         }
-
-         p {
-             margin-bottom: 16px;
-             line-height: 22px;
-         }
-
-         h1 {
-             font-size: 32px;
-             margin-bottom: 16px;
-         }
-
-        .category-menu {
-            overflow: hidden;
-        }
-        
-        .category-menu a {
-            display: block;
-            color: #000;
-            font-weight: 500;
-            border-bottom: 1px solid #000;
-            padding: 10px 15px;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .category-menu a:hover {
-            color: #fff;
-            background-color: #333;
-        }
-    </style>
+    @if (IsSectionDefined("Title")) {
+      RenderSection("Title", required: false);
+    }
+    else { 
+      <title>Buy books online - Bookworm</title>   
+    }
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     @await Component.InvokeAsync("Header")
@@ -122,5 +17,6 @@
         @RenderBody()
     </section>
     @await Component.InvokeAsync("Footer")
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

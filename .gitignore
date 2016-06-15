@@ -3,3 +3,4 @@ Src/obj
 Src/project.lock.json
 Src/.vs
 Src/Public
+node_modules

@@ -1,0 +1,45 @@
+
+body {
+    font-family: $font-default;
+    font-size: 100%;
+    text-align: center;
+}
+
+.page-shell {
+    width: 975px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+.page-main {
+    box-sizing: border-box;
+    padding: 25px 0;
+    min-height: 300px;
+}
+
+.two-col {
+    overflow: hidden;
+}
+
+.two-col .col-1 {
+    box-sizing: border-box;
+    float: left;
+    width: 250px;
+    padding-right: 25px;
+}
+
+.two-col .col-2 {
+    box-sizing: border-box;
+    float: left;
+    width: 715px;
+}
+
+p {
+    margin-bottom: 16px;
+    line-height: 22px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 16px;
+}
