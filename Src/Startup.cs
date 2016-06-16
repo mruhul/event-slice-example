@@ -1,15 +1,19 @@
+using System;
+using System.Reflection;
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Src.Infrastructure.ViewLocationExpanders;
+using Autofac.Extensions.DependencyInjection;
 
 namespace BookWorm.Web
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
 
@@ -17,6 +21,17 @@ namespace BookWorm.Web
             {
                 options.ViewLocationExpanders.Add(new FeatureBasedViewLocationExpander());
             });
+
+            var builder = new ContainerBuilder();
+
+            builder.Populate(services);
+
+            builder.RegisterAssemblyModules(typeof(Startup).GetTypeInfo().Assembly);
+            builder.RegisterModule<Bolt.RequestBus.Autofac.RequestBusModule>();
+
+            var container = builder.Build();
+            
+            return container.Resolve<IServiceProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

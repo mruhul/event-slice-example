@@ -12,10 +12,10 @@
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.0-rc2-3002702"
-    }
+
+    "Autofac.Extensions.DependencyInjection": "4.0.0-rc2-266",
+    "Bolt.RequestBus": "1.0.1",
+    "Bolt.RequestBus.Autofac": "1.0.0.2"
   },
   "tools": {
     "Microsoft.DotNet.Watcher.Tools": {
@@ -24,8 +24,6 @@
     }
   },
   "frameworks": {
-    "netcoreapp1.0": {
-      "imports": "dnxcore50"
-    }
+    "net46": { }
   }
 }
