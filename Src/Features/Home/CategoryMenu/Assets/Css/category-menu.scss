@@ -3,6 +3,7 @@
 
     a {
         display: block;
+        overflow:hidden;
         color: #000;
         font-weight: 500;
         border-bottom: 1px solid #000;
@@ -13,6 +14,16 @@
         &:hover{
             color: #fff;
             background-color: #333;
+        }
+
+        span{
+            float:right;
+            font-size:12px;
+            background: #f4f4f4;
+            display: inline-block;
+            padding: 5px;
+            border-radius:3px;
+            color: #000;
         }
     }
 }
