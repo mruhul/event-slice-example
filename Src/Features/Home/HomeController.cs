@@ -2,7 +2,7 @@
 using Bolt.RequestBus;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Src.Features.Home
+namespace BookWorm.Web.Features.Home
 {
     public class HomeController : Controller
     {
@@ -19,9 +19,5 @@ namespace Src.Features.Home
 
             return View();
         } 
-    }
-
-    public class HomePageRequestedEvent : IEvent
-    {
     }
 }

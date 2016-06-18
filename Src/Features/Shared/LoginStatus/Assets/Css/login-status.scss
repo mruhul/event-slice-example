@@ -1,0 +1,16 @@
+section.login-status{
+    display: block;
+    float: right;
+
+    a {
+      display: inline-block;
+      color: #fff;
+      padding: 8px 10px;
+      text-decoration: none;
+    }
+
+    a.profile{
+        background: url('/public/user.svg') no-repeat 10px 7px;
+        padding: 8px 20px 8px 40px;
+    }
+}

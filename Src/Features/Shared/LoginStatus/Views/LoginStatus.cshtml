@@ -1,0 +1,12 @@
+@model BookWorm.Web.Features.Shared.LoginStatus.LoginStatusViewModel
+<section class="login-status">
+    @if(string.IsNullOrWhiteSpace(Model.Name))
+    {
+        <a href="#">Login</a>
+        <a href="#">Signup</a>
+    }
+    else
+    {
+        <a href="#" class="profile">Welcome @Model.Name</a>
+    }
+</section>

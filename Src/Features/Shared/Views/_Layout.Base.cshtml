@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Threading.Tasks
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,12 +8,16 @@
       RenderSection("Title", required: false);
     }
     else { 
-      <title>Buy books online - Bookworm</title>   
+      <title>Buy books online - Bookworm</title>
     }
+    <link href="https://fonts.googleapis.com/css?family=Slabo+27px" rel="stylesheet">
     @RenderSection("Styles", required: false)
 </head>
 <body>
     @await Component.InvokeAsync("Header")
+    @{
+        await FlushAsync();
+    }
     <section class="page-main">
         @RenderBody()
     </section>

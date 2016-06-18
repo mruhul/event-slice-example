@@ -1,12 +1,15 @@
-﻿<nav class="top-nav">
+﻿<section class="top-nav">    
     <div class="page-shell">
-        <a href="#">&nbsp;</a>
-        <a href="#">Books for sale</a>
-        <a href="#">View Cart</a>
-        <a href="#">Articles</a>
-        <a href="#">About Us</a>
+        <nav>
+            <a href="#">&nbsp;</a>
+            <a href="#">Books for sale</a>
+            <a href="#">View Cart</a>
+            <a href="#">Articles</a>
+            <a href="#">About Us</a>
+        </nav>
+        @await Component.InvokeAsync("LoginStatus")
     </div>
-</nav>
+</section>        
 <header class="page-header">
     <div class="page-shell">
         <h1>Bookworm</h1>

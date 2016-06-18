@@ -5,8 +5,13 @@
     h1 {
         font-size: 45px;
         font-weight: 600;
-        padding-left: 60px;
+        padding-left: 65px;
         background: url('/public/logo.svg') no-repeat;
         margin-bottom: 0;
+        display:block;
+        min-height:55px;
     }
 }
+
+@import './top-nav.scss';
+@import '../../../LoginStatus/assets/css/login-status.scss';

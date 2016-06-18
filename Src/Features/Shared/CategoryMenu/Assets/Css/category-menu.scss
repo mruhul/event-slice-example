@@ -7,23 +7,33 @@
         color: #000;
         font-weight: 500;
         border-bottom: 1px solid #000;
-        padding: 10px 15px;
+        padding: 10px 0;
         text-decoration: none;
         font-weight: 600;
 
         &:hover{
             color: #fff;
             background-color: #333;
+            padding: 10px 15px;
         }
 
         span{
+            float:left;
+            background:none;
+            display:inline-block;
+            padding-top:2px;
+        }
+
+        span.count{
             float:right;
             font-size:12px;
-            background: #f4f4f4;
+            background: #eee;
             display: inline-block;
             padding: 5px;
             border-radius:3px;
             color: #000;
+            min-width:40px;
+            text-align:center;
         }
     }
 }

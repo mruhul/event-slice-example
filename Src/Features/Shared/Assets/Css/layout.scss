@@ -40,6 +40,9 @@ p {
 }
 
 h1 {
+    font-family: $font-heading;
     font-size: 32px;
     margin-bottom: 16px;
+    display:block;
+    min-height: 39px;
 }

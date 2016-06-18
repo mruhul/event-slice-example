@@ -1,0 +1,10 @@
+﻿@model IEnumerable<BookWorm.Api.CategoryDto>
+
+<section class="category-menu">
+    <nav>
+        @foreach (var item in Model)
+        {
+            <a href="#"><span>@item.Name</span><span class="count">@item.Count</span></a>
+        }
+    </nav>
+</section>
