@@ -13,7 +13,7 @@ namespace BookWorm.Web.Features.Home.CategoryMenu
             this.provider = provider;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             var books = provider.Get();
 

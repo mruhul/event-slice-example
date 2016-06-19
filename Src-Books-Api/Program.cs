@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 
-namespace BookWorm.Web
+namespace BookWorm.BooksApi
 {
     public class Program
     {
@@ -15,13 +12,11 @@ namespace BookWorm.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+                .UseUrls("http://localhost:5051")
                 .UseWebRoot(Directory.GetCurrentDirectory() + "\\public")
                 .Build();
 
             host.Run();
-
-            Console.WriteLine("Hello World!!");
         }
     }
-    
 }

@@ -7,29 +7,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
-using Src.Infrastructure.ViewLocationExpanders;
 using Autofac.Extensions.DependencyInjection;
 using Bolt.Common.Extensions;
 using Microsoft.Extensions.Logging;
-using Src.Infrastructure.StartUpTasks;
-using Src.Infrastructure.Stores;
 using NLog.Extensions.Logging;
 
-namespace BookWorm.Web
+namespace BookWorm.BooksApi
 {
     public class Startup
     {
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.ViewLocationExpanders.Add(new FeatureBasedViewLocationExpander());
-            });
-
-            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IContextStore, ContextStore>();
 
             var builder = new ContainerBuilder();
 
@@ -39,19 +28,6 @@ namespace BookWorm.Web
             builder.RegisterModule<Bolt.RequestBus.Autofac.RequestBusModule>();
 
             var container = builder.Build();
-
-            container.Resolve<IEnumerable<IStartUpTask>>()
-                .ForEach(task =>
-                {
-                    try
-                    {
-                        task.Run();
-                    }
-                    catch (Exception e)
-                    {
-                        // ignored
-                    }
-                });
 
             return container.Resolve<IServiceProvider>();
         }

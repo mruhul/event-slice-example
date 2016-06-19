@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace BookWorm.Web.Features.Home.RecentlyViewed
 {
@@ -13,7 +11,7 @@ namespace BookWorm.Web.Features.Home.RecentlyViewed
             this.provider = provider;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             var books = provider.Get(); 
 

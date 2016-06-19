@@ -5,7 +5,7 @@ namespace Src.Features.Shared.Header
 {
     public class HeaderViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             return View("~/Features/Shared/Header/Views/Header.cshtml");
         } 

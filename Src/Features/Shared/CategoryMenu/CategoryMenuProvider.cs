@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
-using BookWorm.Api;
 using Src.Infrastructure.Attributes;
+using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
 
 namespace BookWorm.Web.Features.Shared.CategoryMenu
@@ -63,24 +65,37 @@ namespace BookWorm.Web.Features.Shared.CategoryMenu
     {
         private readonly ICategoryMenuContextStore context;
         private readonly IRestClient restClient;
+        private readonly ILogger logger;
 
-        public LoadCategoryMenuOnPageLoadEventHandler(ICategoryMenuContextStore context, IRestClient restClient)
+        public LoadCategoryMenuOnPageLoadEventHandler(ICategoryMenuContextStore context, IRestClient restClient, ILogger logger)
         {
             this.context = context;
             this.restClient = restClient;
+            this.logger = logger;
         }
 
         public async Task HandleAsync(T eEvent)
         {
-            if(!(eEvent is BookWorm.Web.Features.Shared.Events.IPageRequestedEvent)) return;
+            if(!(eEvent is IRequireCategoryMenu)) return;
 
-            var response = await restClient.For("http://localhost:5000/api/v1/books/categories")
+            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/categories")
                 .AcceptJson()
                 .RetryOnFailure(2)
                 .Timeout(1000)
-                .GetAsync<IEnumerable<CategoryDto>>();
-
-            context.Set(response.Output);
+                .GetAsync<IEnumerable<CategoryDto>>());
+            
+            context.Set(response.Value?.Output);
         }
+    }
+
+    public interface IRequireCategoryMenu
+    {        
+    }
+
+
+    public class CategoryDto
+    {
+        public string Name { get; set; }
+        public int Count { get; set; }
     }
 }

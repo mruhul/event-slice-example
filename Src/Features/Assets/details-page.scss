@@ -1,0 +1,38 @@
+@import '../../shared/assets/css/common.scss';
+
+.book-details{
+    overflow: hidden;
+
+    figure.main-image
+    {
+        box-sizing: border-box;
+        width: 250px;
+        margin-right: 25px;
+        float: left;
+        background: #f4f4f4;
+        border: 1px solid #ddd;
+        padding: 5px;
+        margin-bottom: 16px;
+
+        figcaption{ position: absolute; left: -9999px; top: -9999px; }
+
+        img{
+            width:100%;
+        }
+    }
+
+    header {
+        margin-bottom: 16px;
+        
+        h1 {
+            margin-bottom: 5px;
+        }
+        
+        span {
+            display: block;
+            margin-bottom: 5px;
+            font-family: $font-heading;
+            min-height: 20px;
+        }
+    }
+}

@@ -1,3 +1,4 @@
+using System;
 using BookWorm.Api;
 using System.Linq;
 using System.Collections.Generic;
@@ -6,7 +7,9 @@ using Src.Infrastructure.Stores;
 using Bolt.RestClient;
 using Bolt.RequestBus;
 using System.Threading.Tasks;
+using Bolt.Logger;
 using Bolt.RestClient.Extensions;
+using Src.Infrastructure.ErrorSafeHelpers;
 
 namespace BookWorm.Web.Features.Home.RecentlyViewed
 {
@@ -21,11 +24,13 @@ namespace BookWorm.Web.Features.Home.RecentlyViewed
         private const string Key = "RecentlyViewedProvider:Get";
         private readonly IContextStore context;
         private readonly IRestClient restClient;
-        
-        public RecentlyViewedProvider(IContextStore context, IRestClient restClient)
+        private readonly ILogger logger;
+
+        public RecentlyViewedProvider(IContextStore context, IRestClient restClient, ILogger logger)
         {
             this.context = context;
             this.restClient = restClient;
+            this.logger = logger;
         }
 
         public IEnumerable<BookDto> Get()
@@ -35,13 +40,13 @@ namespace BookWorm.Web.Features.Home.RecentlyViewed
 
         public async Task HandleAsync(HomePageRequestedEvent eEvent)
         {
-            var response = await restClient.For("http://localhost:5000/api/v1/books/recent")
+            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5000/api/v1/books/recent")
                 .AcceptJson()
-                .Timeout(300)
+                .Timeout(1000)
                 .RetryOnFailure(3)
-                .GetAsync<IEnumerable<BookDto>>();
-
-            context.Set(Key, response.Output);
+                .GetAsync<IEnumerable<BookDto>>());
+            
+            context.Set(Key, response.Value?.Output);
         }
     }
 }

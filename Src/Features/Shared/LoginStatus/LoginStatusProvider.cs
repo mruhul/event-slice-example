@@ -1,11 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
 using Src.Infrastructure.Attributes;
+using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
 
 namespace BookWorm.Web.Features.Shared.LoginStatus
@@ -69,24 +72,27 @@ namespace BookWorm.Web.Features.Shared.LoginStatus
     {
         private readonly ILoginStatusContextStore context;
         private readonly IRestClient restClient;
+        private readonly ILogger logger;
 
-        public LoadLoginStatusOnPageLoadEventHandler(ILoginStatusContextStore context, IRestClient restClient)
+        public LoadLoginStatusOnPageLoadEventHandler(ILoginStatusContextStore context, IRestClient restClient, ILogger logger)
         {
             this.context = context;
             this.restClient = restClient;
+            this.logger = logger;
         }
 
         public async Task HandleAsync(T eEvent)
         {
-            if(!(eEvent is BookWorm.Web.Features.Shared.Events.IPageRequestedEvent)) return;
+            if(!(eEvent is BookWorm.Web.Features.Shared.Events.IPageRequestedEvent)) return ;
 
-            var response = await restClient.For("http://localhost:5000/api/v1/users/{0}", "dummyid")
+            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5000/api/v1/users/{0}", "dummyid")
                 .AcceptJson()
                 .RetryOnFailure(3)
-                .Timeout(300)
-                .GetAsync<UserDto>();
+                .Timeout(1000)
+                .GetAsync<UserDto>());
 
-            context.Set(response.Output);
+            context.Set(response.Value?.Output);
+            
         }
     }
 }

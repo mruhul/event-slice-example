@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
 using Src.Infrastructure.Attributes;
+using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
 
 namespace BookWorm.Web.Features.Home.BooksOfTheWeek
@@ -39,15 +41,14 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
 
         public async Task HandleAsync(HomePageRequestedEvent eEvent)
         {
-            logger.Trace("Loading books of the week ...");
+            var response = await ErrorSafe.WithLogger(logger)
+                .ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/featured")
+                    .AcceptJson()
+                    .Timeout(1000)
+                    .RetryOnFailure(3)
+                    .GetAsync<IEnumerable<BookDto>>());
 
-            var response = await restClient.For("http://localhost:5000/api/v1/books/featured")
-                .AcceptJson()
-                .Timeout(1000)
-                .RetryOnFailure(2)
-                .GetAsync<IEnumerable<BookDto>>();
-
-            context.Set(Key, response.Output);
+            context.Set(Key, response.Value?.Output);
         }
     }
 }

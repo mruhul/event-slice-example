@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.Web.Features.Details
 {
-    [Route("[controller]")]
+    [Route("books")]
     public class DetailsController : Controller
     {
         private readonly IRequestBus bus;
@@ -15,7 +15,7 @@ namespace BookWorm.Web.Features.Details
             this.bus = bus;
         }
 
-        [Route("{Id}")]
+        [Route("details/{id}/{title?}")]
         public async Task<IActionResult> Index(DetailsQuery query)
         {
             var taskGetDetails = bus.SendAsync<DetailsQuery,DetailsViewModel>(query);

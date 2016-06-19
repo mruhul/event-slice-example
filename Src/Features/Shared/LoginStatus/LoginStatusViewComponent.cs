@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.Web.Features.Shared.LoginStatus
@@ -12,7 +11,7 @@ namespace BookWorm.Web.Features.Shared.LoginStatus
             this.provider = provider;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             var vm = provider.Get();
             return View("~/Features/Shared/LoginStatus/Views/LoginStatus.cshtml", vm);

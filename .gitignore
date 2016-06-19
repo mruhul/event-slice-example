@@ -5,3 +5,5 @@ Src/.vs
 Src/Public
 node_modules
 .vscode
+bin
+obj

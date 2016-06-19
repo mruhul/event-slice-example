@@ -1,22 +1,27 @@
 @model BookWorm.Web.Features.Details.DetailsViewModel
 @section Styles{
-    <link rel="stylesheet" type="text/css" href="/public/home-page.css"></link>
+    <link rel="stylesheet" type="text/css" href="/public/details-page.css"></link>
 }
 @section Scripts{
-    <script src="/public/home-page.js"></script>
+    <script src="/public/details-page.js"></script>
 }
 @section Title{
     <title>Welcome - Bookworm</title>
 }
 <div class="page-shell">
-    <section class="two-col">
-        <section class="col-1">
-            @await Component.InvokeAsync("CategoryMenu")
+    <article class="book-details">
+        <figure class="main-image">
+            <img style="float:left" src="@Model.Image"/>
+            <figcaption>@Model.Title by @Model.Author</figcaption>
+        </figure> 
+        <section>
+            <header>
+                <h1>@Model.Title</h1>
+                <span class="book-author">By <strong>@Model.Author</strong></span>
+                <span class="book-price">Price: <strong>@Model.Price.ToString("C")</strong></span>
+                <span class="book-isbn">ISBN: <strong>@Model.ISBN</strong></span>
+            </header>
+            <p>@Html.Raw(Model.Details.Replace("\n","<br/><br/>"))</p>
         </section>
-        <section class="col-2">
-            <h2>@Model.Title</h2>
-            <p>@Model.Details</p>
-            <img src="@Model.Image"/>
-        </section>
-    </section>
+    </article>
 </div>

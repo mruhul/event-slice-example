@@ -11,7 +11,10 @@ var settings = {
 };
 
 module.exports = {
-    entry: {'home-page': settings.srcDir + '/home/assets/home-page'},
+    entry: {
+        'home-page': settings.srcDir + '/home/assets/home-page',
+        'details-page': settings.srcDir + '/details/assets/details-page'
+    },
     output: {
         path: settings.outputDir,
         filename: "[name].js",

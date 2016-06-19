@@ -5,7 +5,7 @@ namespace Src.Features.Shared.Footer
 {
     public class FooterViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             return View("~/Features/Shared/Footer/Views/Footer.cshtml");
         }

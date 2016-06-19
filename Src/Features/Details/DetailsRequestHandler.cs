@@ -1,10 +1,12 @@
 using System;
 using System.Threading.Tasks;
+using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RequestBus.Handlers;
 using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
 using Src.Infrastructure.Attributes;
+using Src.Infrastructure.ErrorSafeHelpers;
 
 namespace BookWorm.Web.Features.Details
 {
@@ -29,21 +31,25 @@ namespace BookWorm.Web.Features.Details
     public class DetailsRequestHandler : AsyncRequestHandlerBase<DetailsQuery, DetailsViewModel>
     {
         private readonly IRestClient restClient;
+        private readonly ILogger logger;
 
-        public DetailsRequestHandler(IRestClient restClient)
+        public DetailsRequestHandler(IRestClient restClient, ILogger logger)
         {
             this.restClient = restClient;
+            this.logger = logger;
         }
 
         protected override async Task<DetailsViewModel> ProcessAsync(DetailsQuery query)
         {
-            var response = await restClient.For("http://localhost:5000/api/v1/books/{0}", query.Id)
-                .AcceptJson()
-                .Timeout(1000)
-                .RetryOnFailure(2)
-                .GetAsync<Api.BookDetailsDto>();
+            var response = await ErrorSafe
+                .WithLogger(logger)
+                .ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/{0}", query.Id)
+                    .AcceptJson()
+                    .Timeout(1000) 
+                    .RetryOnFailure(2)
+                    .GetAsync<BookDetailsDto>());
             
-            var dto = response.Output;
+            var dto = response.Value?.Output;
 
             if(dto == null) return null;
 
@@ -54,8 +60,22 @@ namespace BookWorm.Web.Features.Details
                 Author = dto.Author,
                 Image = dto.Image,
                 Price = dto.Price,
-                Details = dto.Details
+                Details = dto.Details,
+                ISBN = dto.ISBN
             };
         }
+    }
+
+    public class BookDetailsDto
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public string Image { get; set; }
+        public decimal Price { get; set; }
+        public string Details { get; set; }
+
+        public string ISBN { get; set; }
+
     }
 }
