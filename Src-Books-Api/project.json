@@ -23,7 +23,8 @@
     "Polly": "4.*",
     "Bolt.Logger": "1.0.0.1",
     "Bolt.Logger.NLog": "1.0.0.1",
-    "NLog.Extensions.Logging": "1.0.0-rc2-final-2016-05-21"
+    "NLog.Extensions.Logging": "1.0.0-rc2-final-2016-05-21",
+    "System.Data.SqlClient": "4.1.0-rc2-24027"
   },
   "tools": {
     "Microsoft.DotNet.Watcher.Tools": {
@@ -32,6 +33,10 @@
     }
   },
   "frameworks": {
-    "net46": { }
+    "net46": {
+      "frameworkAssemblies": {
+        "System.Data": "4.0.0.0"
+      }
+    }
   }
 }

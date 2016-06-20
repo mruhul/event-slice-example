@@ -1,0 +1,29 @@
+﻿.saved-book-status-container{
+    position:relative;
+    top:0;
+    left:0;
+
+    .saved-book-status{
+        border-radius:50%;
+        opacity:0.4;
+        z-index:20;
+        position:absolute;
+        display:block;
+        right:-5px;
+        top:0px;
+        width:32px;
+        height:32px;
+        background: url('/public/heart.svg') #000 no-repeat 50% 50%;
+        cursor: pointer;
+
+        &.saved{
+            opacity:0.8;
+            background-image: url('/public/heart-gold.svg');
+        }
+
+        &:hover{
+            opacity:0.8;
+            background-image: url('/public/heart-gold.svg');
+        }
+    }
+}

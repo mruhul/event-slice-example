@@ -11,7 +11,7 @@ namespace BookWorm.BooksApi
         [HttpGet]
         public async Task<IActionResult> Featured()
         {
-            await Task.Delay(180);
+            await Task.Delay(100);
 
             var result = new List<BookListItemDto>
             {

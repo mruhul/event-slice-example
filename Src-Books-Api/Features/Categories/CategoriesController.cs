@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,8 @@ public class CategoriesController : Controller
     [Route("")]
     public async Task<IActionResult> Get()
     {
-        await Task.Delay(150);
+        
+            await Task.Delay(150);
 
             return Ok(new[]
             {

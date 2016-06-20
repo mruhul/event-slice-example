@@ -4,8 +4,9 @@
     <ul class="books-list">
         @foreach (var item in Model)
         {
-            <li>
-                <a href="#"><img alt="@($"{item.Title} by {item.Author}")" src="@item.Image" /></a>
+            <li class="saved-book-status-container">
+                <span class="saved-book-status @(item.IsSaved ? "saved": "")"></span>
+                <a href="#"><img alt="@($"{item.Title} by {item.Author}")" src="@item.Image"/></a>
                 <h2><a href="#">@item.Title</a>
                 </h2>
                 <a class="price" href="#">@item.Price.ToString("C")</a>

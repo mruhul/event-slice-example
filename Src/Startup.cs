@@ -11,6 +11,7 @@ using Src.Infrastructure.ViewLocationExpanders;
 using Autofac.Extensions.DependencyInjection;
 using Bolt.Common.Extensions;
 using Microsoft.Extensions.Logging;
+using NLog.Config;
 using Src.Infrastructure.StartUpTasks;
 using Src.Infrastructure.Stores;
 using NLog.Extensions.Logging;
@@ -58,7 +59,9 @@ namespace BookWorm.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddNLog();
+            loggerFactory
+                .AddNLog();
+
             env.ConfigureNLog("NLog.config");
 
             loggerFactory.CreateLogger<Startup>().LogError("Configuration started");

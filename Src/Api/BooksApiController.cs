@@ -32,9 +32,9 @@ namespace BookWorm.Api
                     Author = "Pierce Brown"
                 },new BookDto
                 {
-                    Id = "22055262",
+                    Id = "22816087",
                     Title = "Seveneves",
-                    Image = "https://d.gr-assets.com/books/1400322851l/22055262.jpg",
+                    Image = "https://d.gr-assets.com/books/1449142000l/22816087.jpg",
                     Price = 39.50m,
                     Author = "Neal Stephenson"
                 },new BookDto
@@ -68,6 +68,8 @@ namespace BookWorm.Api
         public string Image { get; set; }
         public decimal Price { get; set; }
         public string Author { get; set; }
+
+        public bool IsSaved { get; set; }
     }
 
     

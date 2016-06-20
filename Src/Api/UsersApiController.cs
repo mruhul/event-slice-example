@@ -11,7 +11,7 @@ namespace BookWorm.Api
         [HttpGet]
          public async Task<IActionResult> Get(string id)
          {
-             await Task.Delay(200);
+             await Task.Delay(150);
              
              return Ok(new UserDto
              {

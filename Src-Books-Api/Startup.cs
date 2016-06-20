@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Autofac.Extensions.DependencyInjection;
 using Bolt.Common.Extensions;
+using BookWorm.BooksApi.Infrastructure.StartUpTasks;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 
@@ -28,6 +29,19 @@ namespace BookWorm.BooksApi
             builder.RegisterModule<Bolt.RequestBus.Autofac.RequestBusModule>();
 
             var container = builder.Build();
+
+            container.Resolve<IEnumerable<IStartUpTask>>()
+                .ForEach(task =>
+                {
+                    try
+                    {
+                        task.Run();
+                    }
+                    catch (Exception e)
+                    {
+                        // ignored
+                    }
+                });
 
             return container.Resolve<IServiceProvider>();
         }
