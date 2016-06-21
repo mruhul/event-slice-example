@@ -25,6 +25,7 @@ namespace BookWorm.Web.Features.Details
         public string Details {get; set;}
 
         public string ISBN {get; set;}
+        public bool IsSaved { get; set; }
     }
 
     [AutoBind]
@@ -60,7 +61,7 @@ namespace BookWorm.Web.Features.Details
                 Author = dto.Author,
                 Image = dto.Image,
                 Price = dto.Price,
-                Details = dto.Details,
+                Details = dto.Description,
                 ISBN = dto.ISBN
             };
         }
@@ -73,7 +74,7 @@ namespace BookWorm.Web.Features.Details
         public string Author { get; set; }
         public string Image { get; set; }
         public decimal Price { get; set; }
-        public string Details { get; set; }
+        public string Description { get; set; }
 
         public string ISBN { get; set; }
 

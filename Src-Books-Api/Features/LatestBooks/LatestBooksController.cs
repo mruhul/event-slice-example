@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using BookWorm.BooksApi.Features.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.BooksApi
@@ -12,6 +14,8 @@ namespace BookWorm.BooksApi
         public async Task<IActionResult> Latest()
         {
             await Task.Delay(160);
+
+            return Ok(BookData.GetAll().OrderByDescending(x => x.CreatedAtUtc).Take(4));
 
             var result = new List<BookListItemDto>
             {

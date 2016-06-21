@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookWorm.BooksApi.Features.Shared;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace BookWorm.BooksApi
 {
@@ -12,6 +14,8 @@ namespace BookWorm.BooksApi
         public async Task<IActionResult> Featured()
         {
             await Task.Delay(100);
+
+            return Ok(BookData.GetAll().OrderByDescending(x => x.Popularity).Take(4));
 
             var result = new List<BookListItemDto>
             {

@@ -1,6 +1,8 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Bolt.RequestBus;
 using BookWorm.Web.Features.Shared.Events;
+using BookWorm.Web.Features.Shared.SavedBooks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.Web.Features.Details
@@ -9,10 +11,12 @@ namespace BookWorm.Web.Features.Details
     public class DetailsController : Controller
     {
         private readonly IRequestBus bus;
+        private readonly ISavedItemsProvider savedItemsProvider;
 
-        public DetailsController(IRequestBus bus)
+        public DetailsController(IRequestBus bus, ISavedItemsProvider savedItemsProvider)
         {
             this.bus = bus;
+            this.savedItemsProvider = savedItemsProvider;
         }
 
         [Route("details/{id}/{title?}")]
@@ -26,11 +30,13 @@ namespace BookWorm.Web.Features.Details
 
             if(response.Value == null) return Redirect("~/");
 
+            response.Value.IsSaved = savedItemsProvider.Get().Any(x => x == response.Value.Id);
+
             return View(response.Value);
         } 
     }
 
-    public class DetailsPageRequestedEvent : IEvent, IPageRequestedEvent
+    public class DetailsPageRequestedEvent : IEvent, IPageRequestedEvent,  IRequireSavedItems
     {
     }
 }

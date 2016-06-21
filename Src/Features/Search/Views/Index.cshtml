@@ -1,0 +1,19 @@
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="/public/home-page.css"></link>
+}
+@section Scripts{
+    <script src="/public/home-page.js"></script>
+}
+@section Title{
+    <title>Welcome - Bookworm</title>
+}
+<div class="page-shell">
+    <section class="two-col">
+        <section class="col-1">
+            @await Component.InvokeAsync("CategoryMenu")
+        </section>
+        <section class="col-2">
+            @await Component.InvokeAsync("BooksList")
+        </section>
+    </section>
+</div>

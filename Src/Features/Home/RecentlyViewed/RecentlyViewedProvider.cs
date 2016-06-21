@@ -7,6 +7,7 @@ using Src.Infrastructure.Stores;
 using Bolt.RestClient;
 using Bolt.RequestBus;
 using System.Threading.Tasks;
+using Bolt.Common.Extensions;
 using Bolt.Logger;
 using Bolt.RestClient.Extensions;
 using Src.Infrastructure.ErrorSafeHelpers;
@@ -40,7 +41,7 @@ namespace BookWorm.Web.Features.Home.RecentlyViewed
 
         public async Task HandleAsync(HomePageRequestedEvent eEvent)
         {
-            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5000/api/v1/books/recent")
+            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/456/recent")
                 .AcceptJson()
                 .Timeout(1000)
                 .RetryOnFailure(3)

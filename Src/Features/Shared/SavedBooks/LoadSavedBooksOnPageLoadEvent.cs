@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bolt.Common.Extensions;
 using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RestClient;
@@ -58,7 +59,7 @@ namespace BookWorm.Web.Features.Shared.SavedBooks
 
         public IEnumerable<string> Get()
         {
-            return contextStore.Get<IEnumerable<string>>(Key);
+            return contextStore.Get<IEnumerable<string>>(Key).NullSafe();
         }
 
         public void Set(IEnumerable<string> values)

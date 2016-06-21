@@ -1,4 +1,6 @@
+using System.Linq;
 using System.Threading.Tasks;
+using BookWorm.BooksApi.Features.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookWorm.BooksApi
@@ -10,6 +12,12 @@ namespace BookWorm.BooksApi
         public async Task<IActionResult> Get(string id)
         {
             await Task.Delay(200);
+
+            var book = BookData.GetAll().FirstOrDefault(x => x.Id == id);
+
+            if (book == null) return NotFound();
+
+            return Ok(book);
 
             return Ok(new BookDetailsDto{
                 Id = id,

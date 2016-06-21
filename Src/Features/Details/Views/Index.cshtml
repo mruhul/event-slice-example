@@ -10,7 +10,8 @@
 }
 <div class="page-shell">
     <article class="book-details">
-        <figure class="main-image">
+        <figure class="main-image saved-book-status-container">
+            <span class="saved-book-status @(Model.IsSaved ? "saved": "")"></span>
             <img style="float:left" src="@Model.Image"/>
             <figcaption>@Model.Title by @Model.Author</figcaption>
         </figure> 
