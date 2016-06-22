@@ -1,17 +1,19 @@
-@model IEnumerable<BookWorm.Api.BookDto>
+@model BookWorm.Web.Features.Search.List.BookListViewData
 @using Bolt.Common.Extensions;
-<section class="books-of-the-week feature">
-    <h1>Books of the Week</h1>
+<section class="books-list feature">
+    <h1>@Model.CategoryName</h1>
     <ul class="books-list">
-        @foreach (var item in Model)
-        {
-            <li class="saved-book-status-container">
-                <span class="saved-book-status @(item.IsSaved ? "saved": "")"></span>
-                <a href="/books/details/@item.Id/@item.Title.ToSlug()"><img alt="@($"{item.Title} by {item.Author}")" src="@item.Image"/></a>
-                <h2><a href="#">@item.Title</a>
-                </h2>
-                <a class="price" href="#">@item.Price.ToString("C")</a>
-            </li>
+        @{
+            foreach (var item in Model.Books)
+            {
+                <li class="saved-book-status-container">
+                    <span class="saved-book-status @(item.IsSaved ? "saved" : "")"></span>
+                    <a href="/books/details/@item.Id/@item.Title.ToSlug()"><img alt="@($"{item.Title} by {item.Author}")" src="@item.Image"/></a>
+                    <h2><a href="#">@item.Title</a>
+                    </h2>
+                    <a class="price" href="#">@item.Price.ToString("C")</a>
+                </li>
+            }
         }
     </ul>   
 </section>

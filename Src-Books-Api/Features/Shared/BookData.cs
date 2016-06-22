@@ -75,7 +75,7 @@ Now, on the eve of the wedding of the century, Bex is faced with whether everyth
             new BookRow
             {
                 Category = "Mystery & Thriller",
-                Id = "23492589",
+                Id = "25735012",
                 Title = "Career of Evil",
                 Author = "Robert Galbraith",
                 Image = "https://d.gr-assets.com/books/1434419930l/25735012.jpg",
@@ -276,7 +276,8 @@ With the police focusing on the one suspect Strike is increasingly sure is not t
 
         private static readonly object _lock = new object();
         private static ICollection<BookRow> _processed = null;
-        private static ICollection<BookRow> _saved = null; 
+        private static readonly object _lockSaved = new object();
+        private static ICollection<string> _saved = null; 
 
         public static IEnumerable<BookRow> GetAll()
         {
@@ -301,9 +302,18 @@ With the police focusing on the one suspect Strike is increasingly sure is not t
             }
         }
 
-        public static object SavedIds()
+        public static IEnumerable<string> SavedIds()
         {
-            
+            if (_saved != null) return _saved;
+
+            lock (_lockSaved)
+            {
+                if (_saved != null) return _saved;
+                var rnd = new Random();
+                _saved = _rawData.Select(x => new { Book = x, Sort = rnd.Next(1,100) }).OrderBy(x => x.Sort).Take(5).Select(x => x.Book.Id).ToList();
+            }
+
+            return _saved;
         }
     }
 

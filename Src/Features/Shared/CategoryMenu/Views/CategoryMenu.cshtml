@@ -1,11 +1,11 @@
-﻿@model IEnumerable<BookWorm.Web.Features.Shared.CategoryMenu.CategoryDto>
+﻿@model IEnumerable<BookWorm.Web.Features.Shared.CategoryMenu.CategoryMenuViewModel>
 @using Bolt.Common.Extensions;
 
 <section class="category-menu">
     <nav>
         @foreach (var item in Model)
         {
-            <a href="/books/@(item.Name.ToSlug())"><span>@item.Name</span><span class="count">@item.Count</span></a>
+            <a href="/books/@item.UrlFriendlyName" class="@(item.IsCurrent ? "selected" : string.Empty)"><span>@item.Name</span><span class="count">@item.Count</span></a>
         }
     </nav>
 </section>

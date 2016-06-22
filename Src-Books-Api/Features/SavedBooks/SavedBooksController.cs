@@ -10,10 +10,12 @@ namespace BookWorm.BooksApi.Features.SavedBooks
     [Route("v1/books")]
     public class SavedBooksController : Controller
     {
-        [Route("{userId}.saved")]
-        public Task<IActionResult> Get(string userId)
+        [Route("{userId}/saved")]
+        public async Task<IActionResult> Get(string userId)
         {
-            return Ok(BookData.SavedIds());
+            await Task.Delay(120);
+            var ids = BookData.SavedIds();
+            return Ok(ids);
         } 
     }
 }
