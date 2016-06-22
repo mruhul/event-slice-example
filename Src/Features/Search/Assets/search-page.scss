@@ -1,0 +1,61 @@
+@import '../../shared/assets/css/common.scss';
+
+section.feature{
+    h1{
+        border-bottom:2px dotted #000;
+    }
+
+    margin-bottom:25px;
+
+    &.books-list{
+        overflow:hidden;
+
+        ul {
+            display:block;
+            overflow:hidden;
+                padding-bottom:16px;
+                border-bottom:1px dotted #000;
+                margin-bottom:16px;
+   
+            li{
+                box-sizing:border-box;
+                list-style:none;
+                display:inline-block;
+                float:left;
+                width: 170px;
+                margin-left:10px;
+
+                img{
+                    box-sizing:border-box;
+                    width:100%;
+                    min-height: 248px;
+                    border:1px solid #ddd;
+                    padding:5px;
+                    background: #f4f4f4;
+                }
+
+                &:first-child{
+                    margin-left:0;
+                }
+
+                h2{
+                    padding:5px 0;
+                    display:block;
+                    a{
+                        text-decoration:none;
+                        color:#000;
+                    }
+                }
+
+                a.price{
+                    display:block;
+                    text-decoration:none;           
+                    font-weight:600;
+                    color:#000;
+                    display:inline-block;
+                }
+            } 
+        }
+    }
+}
+

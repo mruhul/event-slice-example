@@ -13,7 +13,8 @@ var settings = {
 module.exports = {
     entry: {
         'home-page': settings.srcDir + '/home/assets/home-page',
-        'details-page': settings.srcDir + '/details/assets/details-page'
+        'details-page': settings.srcDir + '/details/assets/details-page',
+        'search-page': settings.srcDir + '/search/assets/search-page'
     },
     output: {
         path: settings.outputDir,

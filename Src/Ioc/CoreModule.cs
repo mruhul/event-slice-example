@@ -10,7 +10,8 @@ namespace Src.Ioc
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(x => RestClientBuilder.New().WithSerializer(new JsonSerializer()).Build()).As<IRestClient>().SingleInstance();
+            builder.Register(x => RestClientBuilder.New()
+            .WithSerializer(new JsonSerializer()).Build()).As<IRestClient>().SingleInstance();
 
             builder.Register(x => new NLogLogger("BookWorm"))
                 .As<Bolt.Logger.ILogger>()

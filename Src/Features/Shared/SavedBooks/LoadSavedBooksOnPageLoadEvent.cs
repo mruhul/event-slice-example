@@ -32,7 +32,7 @@ namespace BookWorm.Web.Features.Shared.SavedBooks
 
             return ErrorSafe.WithLogger(logger).ExecuteAsync(async () =>
             {
-                var response = await restClient.For("http://localhost:5000/v1/saveditems/{0}", "currentuserid")
+                var response = await restClient.For("http://localhost:5051/v1/books/{0}/saved", "currentuserid")
                     .GetAsync<IEnumerable<string>>();
 
                 provider.Set(response.Output);

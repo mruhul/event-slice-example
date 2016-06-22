@@ -40,14 +40,15 @@ namespace BookWorm.Web.Features.Search.List
         public IViewComponentResult Invoke()
         {
             var savedItems = savedItemsProvider.Get();
+            var books = provider.Get();
             var vm = new BookListViewData
             {
                 CategoryName = categoryMenuProvider.Get().FirstOrDefault(x => x.Name.ToSlug() == currentCategoryProvider.Get())?.Name,
-                Books = provider.Get().Select(x =>
+                Books = books.Select(x =>
                 {
                     x.IsSaved = savedItems.Any(i => i == x.Id);
                     return x;
-                }).ToList()
+                }).ToArray()
             };
 
             return View("~/Features/Search/List/Views/BooksList.cshtml", vm);
@@ -57,7 +58,7 @@ namespace BookWorm.Web.Features.Search.List
     public class BookListViewData
     {
         public string CategoryName { get; set; }
-        public ICollection<BookDto> Books { get; set; }
+        public BookDto[] Books { get; set; }
     }
 
     public interface IBooksListProvider

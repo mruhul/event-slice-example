@@ -63,7 +63,7 @@ Now, on the eve of the wedding of the century, Bex is faced with whether everyth
             new BookRow
             {
                 Category = "Mystery & Thriller",
-                Id = "23492589",
+                Id = "22557272",
                 Title = "Finders Keepers",
                 Author = "Stephen King",
                 Image = "https://d.gr-assets.com/books/1462023471l/22557272.jpg",
@@ -271,7 +271,63 @@ With the police focusing on the one suspect Strike is increasingly sure is not t
                 Image = "https://d.gr-assets.com/books/1411059576l/23209924.jpg",
                 Description = @"In the American Southwest, Nevada, Arizona, and California skirmish for dwindling shares of the Colorado River. Into the fray steps Angel Velasquez, detective, leg-breaker, assassin and spy. A Las Vegas water knife, Angel ""cuts"" water for his boss, Catherine Case, ensuring that her lush, luxurious arcology developments can bloom in the desert, so the rich can stay wet, while the poor get nothing but dust. When rumors of a game-changing water source surface in drought-ravaged Phoenix, Angel is sent to investigate",
                 Isbn = "0316349950"
-            }
+            },
+
+            //"Horror"
+            
+            new BookRow
+            {
+                Category = "Horror",
+                Id = "23398606",
+                Title = "Alice",
+                Author = "Christina Henry",
+                Image = "https://d.gr-assets.com/books/1416530621l/23398606.jpg",
+                Description = @"A mind-bending new novel inspired by the twisted and wondrous works of Lewis Carroll... In a warren of crumbling buildings and desperate people called the Old City, there stands a hospital with cinderblock walls which echo the screams of the poor souls inside. In the hospital, there is a woman. Her hair, once blond, hangs in tangles down her back. She doesn’t remember why she’s in such a terrible place. Just a tea party long ago, and long ears, and blood… Then, one night, a fire at the hospital gives the woman a chance to escape, tumbling out of the hole that imprisoned her, leaving her free to uncover the truth about what happened to her all those years ago. Only something else has escaped with her. Something dark. Something powerful. And to find the truth, she will have to track this beast to the very heart of the Old City, where the rabbit waits for his Alice.",
+                Isbn = "0316349951"
+            },
+            new BookRow
+            {
+                Category = "Horror",
+                Id = "20454635",
+                Title = "The Last American Vampire",
+                Author = "Seth Grahame-Smith",
+                Image = "https://d.gr-assets.com/books/1407107369l/20454635.jpg",
+                Description = @"New York Times bestselling author Seth Grahame-Smith returns with the follow-up to Abraham Lincoln: Vampire Hunter--a sweeping, alternate history of 20th Century America as seen through the eyes of vampire Henry Sturges.THE LAST AMERICAN VAMPIREIn Reconstruction-era America, vampire Henry Sturges is searching for renewed purpose in the wake of his friend Abraham Lincoln's shocking death. It will be an expansive journey that will first send him to England for an unexpected encounter with Jack the Ripper, then to New York City for the birth of a new American century, the dawn of the electric era of Tesla and Edison, and the blazing disaster of the 1937 Hindenburg crash. Along the way, Henry goes on the road in a Kerouac-influenced trip as Seth Grahame-Smith ingeniously weaves vampire history through Russia's October Revolution, the First and Second World Wars, and the JFK assassination. Expansive in scope and serious",
+                Isbn = "0316349952"
+            },
+
+            //"Humor"
+            
+            new BookRow
+            {
+                Category = "Humor",
+                Id = "22716447",
+                Title = "Why Not Me?",
+                Author = "Mindy Kaling",
+                Image = "https://d.gr-assets.com/books/1442548684l/22716447.jpg",
+                Description = @"In Why Not Me?, Kaling shares her ongoing journey to find contentment and excitement in her adult life, whether it’s falling in love at work, seeking new friendships in lonely places, attempting to be the first person in history to lose weight without any behavior modification whatsoever, or most important, believing that you have a place in Hollywood when you’re constantly reminded that no one looks like you. In “How to Look Spectacular: A Starlet’s Confessions,” Kaling gives her tongue-in-cheek secrets for surefire on-camera beauty, (“Your natural hair color may be appropriate for your skin tone, but this isn’t the land of appropriate–this is Hollywood, baby. Out here, a dark-skinned woman’s ",
+                Isbn = "0316349953"
+            },
+            new BookRow
+            {
+                Category = "Humor",
+                Id = "23848559",
+                Title = "Furiously Happy",
+                Author = "Jenny Lawson",
+                Image = "https://d.gr-assets.com/books/1429101901l/23848559.jpg",
+                Description = @"In LET'S PRETEND THIS NEVER HAPPENED, Jenny Lawson baffled readers with stories about growing up the daughter of a taxidermist. In her new book, FURIOUSLY HAPPY, Jenny explores her lifelong battle with mental illness. A hysterical, ridiculous book about crippling depression and anxiety? That sounds like a terrible idea. And terrible ideas are what Jenny does best. According to Jenny: ""Some people might think that being 'furiously happy' is just an excuse to be stupid and irresponsible and invite a herd of kangaroos over to your house without telling your husband first because you suspect he would say no since he's never particularly liked kangaroos. ",
+                Isbn = "0316349954"
+            },
+            new BookRow
+            {
+                Category = "Humor",
+                Id = "25246752",
+                Title = "Binge",
+                Author = "Tyler Oakley",
+                Image = "https://d.gr-assets.com/books/1439787297l/25246752.jpg",
+                Description = @"Pop-culture phenomenon, social rights advocate, and the most prominent LGBTQ+ voice on YouTube, Tyler Oakley brings you his first collection of witty, personal, and hilarious essays. For someone who made a career out of over-sharing on the Internet, Tyler has a shocking number of personal mishaps and shenanigans to reveal in his first book: experiencing a legitimate rage blackout in a Cheesecake Factory; negotiating a tense stand­off with a White House official; crashing a car in front of his entire high school, in an Arby’s uniform; projectile vomiting while bartering with a grandmother; and so much more. In Binge, Tyler delivers his best untold, hilariously side-splitting moments with the trademark flair that made him",
+                Isbn = "0316349955"
+            },
         };
 
         private static readonly object _lock = new object();
@@ -309,8 +365,8 @@ With the police focusing on the one suspect Strike is increasingly sure is not t
             lock (_lockSaved)
             {
                 if (_saved != null) return _saved;
-                var rnd = new Random();
-                _saved = _rawData.Select(x => new { Book = x, Sort = rnd.Next(1,100) }).OrderBy(x => x.Sort).Take(5).Select(x => x.Book.Id).ToList();
+                var rnd = new Random(1000);
+                _saved = _rawData.Select(x => new { Book = x, Sort = rnd.Next(1,100) }).OrderBy(x => x.Sort).Take(8).Select(x => x.Book.Id).ToList();
             }
 
             return _saved;
