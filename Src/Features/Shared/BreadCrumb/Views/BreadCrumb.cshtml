@@ -1,0 +1,9 @@
+﻿@model BookWorm.Web.Features.Shared.BreadCrumb.BreadCrumbViewModel
+
+<section class="bread-crumb">
+    You are here: <a href="/">Home</a>
+    @foreach (var  item in Model.Links)
+    {
+        <text>&gt; &nbsp;</text> <a href="@item.Url">@item.Text</a>
+    }
+</section>

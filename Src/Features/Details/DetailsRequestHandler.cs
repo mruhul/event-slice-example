@@ -26,6 +26,7 @@ namespace BookWorm.Web.Features.Details
 
         public string ISBN {get; set;}
         public bool IsSaved { get; set; }
+        public string Category { get; set; }
     }
 
     [AutoBind]
@@ -46,7 +47,7 @@ namespace BookWorm.Web.Features.Details
                 .WithLogger(logger)
                 .ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/{0}", query.Id)
                     .AcceptJson()
-                    .Timeout(1000) 
+                    .Timeout(5000) 
                     .RetryOnFailure(2)
                     .GetAsync<BookDetailsDto>());
             
@@ -62,7 +63,8 @@ namespace BookWorm.Web.Features.Details
                 Image = dto.Image,
                 Price = dto.Price,
                 Details = dto.Description,
-                ISBN = dto.ISBN
+                ISBN = dto.ISBN,
+                Category = dto.Category
             };
         }
     }
@@ -77,6 +79,7 @@ namespace BookWorm.Web.Features.Details
         public string Description { get; set; }
 
         public string ISBN { get; set; }
+        public string Category { get; set; }
 
     }
 }

@@ -1,3 +1,4 @@
+@using System.ComponentModel
 @model BookWorm.Web.Features.Details.DetailsViewModel
 @section Styles{
     <link rel="stylesheet" type="text/css" href="/public/details-page.css"></link>
@@ -14,15 +15,16 @@
             <span class="saved-book-status @(Model.IsSaved ? "saved": "")"></span>
             <img style="float:left" src="@Model.Image"/>
             <figcaption>@Model.Title by @Model.Author</figcaption>
-        </figure> 
+        </figure>
         <section>
+            @await Component.InvokeAsync("BreadCrumb")
             <header>
                 <h1>@Model.Title</h1>
                 <span class="book-author">By <strong>@Model.Author</strong></span>
                 <span class="book-price">Price: <strong>@Model.Price.ToString("C")</strong></span>
                 <span class="book-isbn">ISBN: <strong>@Model.ISBN</strong></span>
             </header>
-            <p>@Html.Raw(Model.Details.Replace("\n","<br/><br/>"))</p>
+            <p>@Html.Raw(Model.Details.Replace("\n", "<br/><br/>"))</p>
         </section>
     </article>
 </div>
