@@ -1,9 +1,10 @@
-﻿<section class="top-nav">    
+﻿@model BookWorm.Web.Features.Shared.Header.HeaderViewModel
+<section class="top-nav">    
     <div class="page-shell">
         <nav>
             <a href="/">&nbsp;</a>
             <a href="#">Books for sale</a>
-            <a href="#">View Cart</a>
+            <a href="#">View Cart@(Model.TotalItemsInCart > 0 ? $" ({Model.TotalItemsInCart.ToString()})" : string.Empty)</a>
             <a href="#">Articles</a>
             <a href="#">About Us</a>
         </nav>

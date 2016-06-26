@@ -18,7 +18,7 @@ public class CategoriesController : Controller
                       CategoryDto{
                           Name = g.Key,
                           Count = g.Select(l => l.Id).Distinct().Count()
-                      }));
+                      }).OrderBy(x => x.Name));
     }
 
     public class CategoryDto

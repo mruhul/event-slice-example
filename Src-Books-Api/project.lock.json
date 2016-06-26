@@ -98,7 +98,7 @@
           "lib/net46/Bolt.RequestBus.Autofac.dll": {}
         }
       },
-      "Bolt.RestClient/2.0.0.1": {
+      "Bolt.RestClient/2.1.0": {
         "type": "package",
         "dependencies": {
           "Bolt.Logger": "1.0.0",
@@ -1082,6 +1082,20 @@
           "lib/netstandard1.1/Microsoft.Extensions.Logging.Abstractions.dll": {}
         }
       },
+      "Microsoft.Extensions.Logging.Console/1.0.0-rc2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc2-final",
+          "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc2-final",
+          "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc2-final"
+        },
+        "compile": {
+          "lib/net451/Microsoft.Extensions.Logging.Console.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Microsoft.Extensions.Logging.Console.dll": {}
+        }
+      },
       "Microsoft.Extensions.ObjectPool/1.0.0-rc2-final": {
         "type": "package",
         "compile": {
@@ -1957,11 +1971,11 @@
         "lib/net46/Bolt.RequestBus.Autofac.dll"
       ]
     },
-    "Bolt.RestClient/2.0.0.1": {
-      "sha512": "uoJUINApVRogqIlcrKaLlsYqReqoXlZ5kqITaEngiG3tEswC/mIFJGYhGDhZzZ9nrT2ToBqCePzTKNInkLbZNg==",
+    "Bolt.RestClient/2.1.0": {
+      "sha512": "xqGfpNdXWm9lof/yQmFneGlPpWo8K9svNt64FqDIvRjb6ZTvARnCXO503RFOZvYx76gaJsQjQjwoVHfGh3v/Qg==",
       "type": "package",
       "files": [
-        "Bolt.RestClient.2.0.0.1.nupkg.sha512",
+        "Bolt.RestClient.2.1.0.nupkg.sha512",
         "Bolt.RestClient.nuspec",
         "lib/net45/Bolt.RestClient.dll"
       ]
@@ -2750,6 +2764,18 @@
         "lib/netcore50/Microsoft.Extensions.Logging.Abstractions.xml",
         "lib/netstandard1.1/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard1.1/Microsoft.Extensions.Logging.Abstractions.xml"
+      ]
+    },
+    "Microsoft.Extensions.Logging.Console/1.0.0-rc2-final": {
+      "sha512": "wzTVkE0h7xKPB7PF/XMgTIuvckjzscgDqvpr2QhqMYxXeni7dUqAO8FUy4DQ8MljXikgLbKSUvJS9HgMhFD3ng==",
+      "type": "package",
+      "files": [
+        "Microsoft.Extensions.Logging.Console.1.0.0-rc2-final.nupkg.sha512",
+        "Microsoft.Extensions.Logging.Console.nuspec",
+        "lib/net451/Microsoft.Extensions.Logging.Console.dll",
+        "lib/net451/Microsoft.Extensions.Logging.Console.xml",
+        "lib/netstandard1.3/Microsoft.Extensions.Logging.Console.dll",
+        "lib/netstandard1.3/Microsoft.Extensions.Logging.Console.xml"
       ]
     },
     "Microsoft.Extensions.ObjectPool/1.0.0-rc2-final": {
@@ -5634,6 +5660,7 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.0.0-rc2-final",
       "Microsoft.AspNetCore.Server.Kestrel >= 1.0.0-rc2-final",
       "Microsoft.AspNetCore.StaticFiles >= 1.0.0-rc2-final",
+      "Microsoft.Extensions.Logging.Console >= 1.0.0-rc2-final",
       "NLog.Extensions.Logging >= 1.0.0-rc2-final-2016-05-21",
       "Newtonsoft.Json >= 8.0.3",
       "Polly >= 4.*",

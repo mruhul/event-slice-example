@@ -45,7 +45,7 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
                 .ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/featured")
                     .AcceptJson()
                     .Timeout(1000)
-                    .RetryOnFailure(3)
+                    .RetryOnFailure(2)
                     .GetAsync<IEnumerable<BookDto>>());
 
             context.Set(Key, response.Value?.Output);

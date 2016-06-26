@@ -44,7 +44,7 @@ namespace BookWorm.Web.Features.Home.RecentlyViewed
             var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/456/recent")
                 .AcceptJson()
                 .Timeout(1000)
-                .RetryOnFailure(3)
+                .RetryOnFailure(2)
                 .GetAsync<IEnumerable<BookDto>>());
             
             context.Set(Key, response.Value?.Output);

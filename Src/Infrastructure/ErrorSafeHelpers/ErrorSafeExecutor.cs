@@ -50,7 +50,6 @@ namespace Src.Infrastructure.ErrorSafeHelpers
             catch (Exception e)
             {
                 logger?.Error(e, e.Message);
-
                 return ErrorSafeResponse.Failed<T>();
             }
         }

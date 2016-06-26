@@ -30,6 +30,17 @@
                                 <a href="#">@item.Title</a>
                             </h2>
                             <a class="price" href="#">@item.Price.ToString("C")</a>
+                            <div class="links">
+                                <a href="/books/details/@item.Id/@item.Title.ToSlug()">Details</a>
+                                @if (item.TotalItemsInCart > 0)
+                                {
+                                    <a href="#">View (@item.TotalItemsInCart)</a>
+                                }
+                                else
+                                {
+                                    <a href="#">Add to Cart</a>
+                                }
+                            </div>
                         </li>
                     }
                     else

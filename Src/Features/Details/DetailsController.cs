@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Bolt.Logger;
 using Bolt.RequestBus;
 using BookWorm.Web.Features.Shared.Events;
 using BookWorm.Web.Features.Shared.SavedBooks;
@@ -12,16 +13,20 @@ namespace BookWorm.Web.Features.Details
     {
         private readonly IRequestBus bus;
         private readonly ISavedItemsProvider savedItemsProvider;
+        private readonly ILogger logger;
 
-        public DetailsController(IRequestBus bus, ISavedItemsProvider savedItemsProvider)
+        public DetailsController(IRequestBus bus, ISavedItemsProvider savedItemsProvider, ILogger logger)
         {
             this.bus = bus;
             this.savedItemsProvider = savedItemsProvider;
+            this.logger = logger;
         }
 
         [Route("details/{id}/{title?}")]
         public async Task<IActionResult> Index(DetailsQuery query)
         {
+            logger.Trace("Start requesting details page...");
+
             var taskGetDetails = bus.SendAsync<DetailsQuery,DetailsViewModel>(query);
 
             await Task.WhenAll(taskGetDetails, bus.PublishAsync(new DetailsPageRequestedEvent()));

@@ -85,14 +85,18 @@ namespace BookWorm.Web.Features.Shared.LoginStatus
         {
             if(!(eEvent is BookWorm.Web.Features.Shared.Events.IPageRequestedEvent)) return ;
 
-            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5000/api/v1/users/{0}", "dummyid")
+            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/users/{0}", "dummyid")
                 .AcceptJson()
-                .RetryOnFailure(3)
+                .RetryOnFailure(2)
                 .Timeout(1000)
                 .GetAsync<UserDto>());
 
             context.Set(response.Value?.Output);
-            
         }
+    }
+
+    public class UserDto
+    {
+        public string Name { get; set; }
     }
 }

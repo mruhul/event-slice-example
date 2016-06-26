@@ -54,6 +54,19 @@ section.feature{
                     color:#000;
                     display:inline-block;
                 }
+
+                .links{
+                    margin-top:5px;
+
+                    a {
+                        color:#000;
+                        display:inline-block;
+                        padding:5px 5px 0 0;
+                    }
+                    a:hover{
+                        text-decoration:none;
+                    }
+                }
             } 
         }
     }

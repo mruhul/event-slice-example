@@ -9,6 +9,7 @@ using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
 using BookWorm.Web.Features.Search;
+using BookWorm.Web.Features.Shared.Cart;
 using BookWorm.Web.Features.Shared.CategoryMenu;
 using BookWorm.Web.Features.Shared.SavedBooks;
 using Microsoft.AspNetCore.Mvc;
@@ -25,28 +26,33 @@ namespace BookWorm.Web.Features.Search.List
         private readonly ISavedItemsProvider savedItemsProvider;
         private readonly ICategoryMenuProvider categoryMenuProvider;
         private readonly ICurrentCategoryProvider currentCategoryProvider;
+        private readonly ICartProvider cartProvider;
 
         public BooksListViewComponent(IBooksListProvider provider, 
             ISavedItemsProvider savedItemsProvider,
             ICategoryMenuProvider categoryMenuProvider,
-            ICurrentCategoryProvider currentCategoryProvider)
+            ICurrentCategoryProvider currentCategoryProvider,
+            ICartProvider cartProvider)
         {
             this.provider = provider;
             this.savedItemsProvider = savedItemsProvider;
             this.categoryMenuProvider = categoryMenuProvider;
             this.currentCategoryProvider = currentCategoryProvider;
+            this.cartProvider = cartProvider;
         }
 
         public IViewComponentResult Invoke()
         {
             var savedItems = savedItemsProvider.Get();
             var books = provider.Get();
+            var cart = cartProvider.Get();
             var vm = new BookListViewData
             {
                 CategoryName = categoryMenuProvider.Get().FirstOrDefault(x => x.Name.ToSlug() == currentCategoryProvider.Get())?.Name,
                 Books = books.Select(x =>
                 {
                     x.IsSaved = savedItems.Any(i => i == x.Id);
+                    x.TotalItemsInCart = cart.Items?.FirstOrDefault(item => item.BookId == x.Id)?.Quantity ?? 0;
                     return x;
                 }).ToArray()
             };
@@ -89,7 +95,6 @@ namespace BookWorm.Web.Features.Search.List
         }
     }
 
-    [AutoBind]
     public class LoadBooksOnSearchPageRequestedEventHandler : IAsyncEventHandler<SearchPageRequestedEvent>
     {
         private readonly IBooksListProvider provider;
@@ -111,7 +116,7 @@ namespace BookWorm.Web.Features.Search.List
                 .ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/list/{0}", eEvent.Category)
                     .AcceptJson()
                     .Timeout(1000)
-                    .RetryOnFailure(3)
+                    .RetryOnFailure(2)
                     .GetAsync<IEnumerable<BookDto>>());
 
             provider.Set(response.Value?.Output);

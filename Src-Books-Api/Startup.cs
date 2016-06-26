@@ -48,8 +48,8 @@ namespace BookWorm.BooksApi
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddNLog();
             env.ConfigureNLog("NLog.config");
+            loggerFactory.AddConsole().AddNLog();
 
             loggerFactory.CreateLogger<Startup>().LogError("Configuration started");
 

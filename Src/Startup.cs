@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Src.Infrastructure.ViewLocationExpanders;
 using Autofac.Extensions.DependencyInjection;
 using Bolt.Common.Extensions;
+using BookWorm.Web.Features.Shared;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NLog.Config;
 using Src.Infrastructure.StartUpTasks;
@@ -20,6 +22,8 @@ namespace BookWorm.Web
 {
     public class Startup
     {
+        public IConfigurationRoot Configuration { get; private set; }
+
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -29,6 +33,11 @@ namespace BookWorm.Web
                 options.ViewLocationExpanders.Add(new FeatureBasedViewLocationExpander());
             });
 
+            services.Configure<DetailsApiSettings>(opt =>
+            {
+                opt.Url = Configuration.GetSection("apiSettings:detailsApiSettings")["url"];
+            });
+            
             services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IContextStore, ContextStore>();
 
@@ -59,12 +68,19 @@ namespace BookWorm.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            env.ConfigureNLog("NLog.config");
             loggerFactory
                 .AddNLog();
 
-            env.ConfigureNLog("NLog.config");
-
             loggerFactory.CreateLogger<Startup>().LogError("Configuration started");
+
+            var builder = new ConfigurationBuilder();
+            builder.SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
 
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())

@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "exports": {
+    "Bolt.RestClient/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.5",
+      "compile": {
+        "bin/Debug/Bolt.RestClient.dll": {}
+      },
+      "runtime": {
+        "../packages/Bolt.Logger.1.0.0.0/lib/net45/Bolt.Logger.dll": {},
+        "../packages/Bolt.Serializer.1.0.0.0/lib/net45/Bolt.Serializer.dll": {},
+        "bin/Debug/Bolt.RestClient.dll": {}
+      }
+    }
+  }
+}
