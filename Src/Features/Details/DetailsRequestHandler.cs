@@ -6,8 +6,8 @@ using Bolt.RequestBus.Handlers;
 using Bolt.RestClient;
 using Bolt.RestClient.Builders;
 using Bolt.RestClient.Extensions;
-using BookWorm.Web.Features.Shared;
 using Microsoft.Extensions.Options;
+using Src.Features.Details;
 using Src.Infrastructure.Attributes;
 using Src.Infrastructure.ErrorSafeHelpers;
 
@@ -37,13 +37,13 @@ namespace BookWorm.Web.Features.Details
     {
         private readonly IRestClient restClient;
         private readonly ILogger logger;
-        private readonly IOptions<DetailsApiSettings> option;
+        private readonly IDetailsApiSettings settings;
 
-        public DetailsRequestHandler(IRestClient restClient, ILogger logger, IOptions<DetailsApiSettings> option)
+        public DetailsRequestHandler(IRestClient restClient, ILogger logger, IDetailsApiSettings settings)
         {
             this.restClient = restClient;
             this.logger = logger;
-            this.option = option;
+            this.settings = settings;
         }
 
         protected override async Task<DetailsViewModel> ProcessAsync(DetailsQuery query)
@@ -51,7 +51,7 @@ namespace BookWorm.Web.Features.Details
             var response = await ErrorSafe
                 .WithLogger(logger)
                 .ExecuteAsync(() => restClient.For(
-                        UrlBuilder.Host(option.Value.Url).Route($"books/{query.Id}")
+                        UrlBuilder.Host(settings.Url).Route($"books/{query.Id}")
                     ).AcceptJson()
                     .Timeout(1000) 
                     .RetryOnFailure(2)

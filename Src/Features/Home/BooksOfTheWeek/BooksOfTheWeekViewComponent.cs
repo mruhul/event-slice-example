@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
+using Bolt.RequestBus;
+using BookWorm.Api;
 using BookWorm.Web.Features.Shared.SavedBooks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,27 +9,19 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
 {
     public class BooksOfTheWeekViewComponent : ViewComponent
     {
-        private readonly IBooksOfTheWeekProvider provider;
-        private readonly ISavedItemsProvider savedItemsProvider;
+        private readonly IRequestBus bus;
 
-        public BooksOfTheWeekViewComponent(IBooksOfTheWeekProvider provider, ISavedItemsProvider savedItemsProvider)
+        public BooksOfTheWeekViewComponent(IRequestBus bus)
         {
-            this.provider = provider;
-            this.savedItemsProvider = savedItemsProvider;
+            this.bus = bus;
         }
 
         public IViewComponentResult Invoke()
         {
-            var savedItems = savedItemsProvider.Get();
+            var vm = bus.Send<BooksOfTheWeekQuery, IEnumerable<BookDto>>(new BooksOfTheWeekQuery());
 
-            var vm = provider.Get().Select(x =>
-            {
-                x.IsSaved = savedItems?.Any(id => x.Id == id) ?? false;
-                return x;
-            });
-
-
-            return View("~/Features/Home/BooksOfTheWeek/Views/BooksOfTheWeek.cshtml", vm);
+            return View("~/Features/Home/BooksOfTheWeek/Views/BooksOfTheWeek.cshtml", vm.Value);
         } 
     }
+
 }

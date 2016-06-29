@@ -32,14 +32,10 @@ namespace BookWorm.Web
             {
                 options.ViewLocationExpanders.Add(new FeatureBasedViewLocationExpander());
             });
-
-            services.Configure<DetailsApiSettings>(opt =>
-            {
-                opt.Url = Configuration.GetSection("apiSettings:detailsApiSettings")["url"];
-            });
             
             services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IContextStore, ContextStore>();
+            services.AddSingleton<IConfiguration>(opt => Configuration);
 
             var builder = new ContainerBuilder();
 
@@ -66,7 +62,7 @@ namespace BookWorm.Web
             return container.Resolve<IServiceProvider>();
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,  ILoggerFactory loggerFactory)
         {
             env.ConfigureNLog("NLog.config");
             loggerFactory
@@ -75,8 +71,8 @@ namespace BookWorm.Web
             loggerFactory.CreateLogger<Startup>().LogError("Configuration started");
 
             var builder = new ConfigurationBuilder();
-            builder.SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json")
+            builder.AddJsonFile("appsettings.json")
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
