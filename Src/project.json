@@ -13,15 +13,7 @@
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
     "Autofac.Extensions.DependencyInjection": "4.0.0-rc2-266",
-    "Bolt.RequestBus": "1.*",
-    "Bolt.RequestBus.Autofac": "1.*",
-    "Bolt.RestClient": "2.*",
-    "Bolt.Serializer.Json": "1.0.0.1",
-    "Bolt.Serializer": "1.*",
-    "Bolt.Common.Extensions": "1.*",
     "Newtonsoft.Json": "8.0.3",
-    "Bolt.Logger": "1.0.0.1",
-    "Bolt.Logger.NLog": "1.0.0.1",
     "NLog.Extensions.Logging": "1.0.0-rc2-final-2016-05-21",
     "System.Net.Http": "4.0.1-rc2-24027",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
@@ -29,13 +21,20 @@
   },
   "tools": {
     "Microsoft.DotNet.Watcher.Tools": {
-      "version": "1.0.0-*",
+      "version": "1.0.0-0",
       "imports": "portable-net451+win8"
     }
   },
   "frameworks": {
     "net46": {
       "dependencies": {
+    	"Bolt.RestClient": "2.1.0.1",
+    	"Bolt.Serializer.Json": "1.0.0.1" ,
+    	"Bolt.RequestBus.Autofac": "1.0.0.2",
+    	"Bolt.Serializer": "1.0.0.0",
+    	"Bolt.Common.Extensions": "1.0.4",
+    	"Bolt.Logger": "1.0.0.1",
+    	"Bolt.Logger.NLog": "1.0.0.1"
       }
     }
   }

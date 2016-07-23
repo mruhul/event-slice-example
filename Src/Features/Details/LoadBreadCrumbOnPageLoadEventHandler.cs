@@ -26,14 +26,14 @@ namespace Src.Features.Details
         {
             provider.Push(new BreadCrumbLink
             {
-                Text = eEvent.Result?.Value?.Category,
-                Url = $"/books/{eEvent.Result?.Value?.Category.ToSlug()}"
+                Text = eEvent.Result?.Category,
+                Url = $"/books/{eEvent.Result?.Category.ToSlug()}"
             });
 
             provider.Push(new BreadCrumbLink
             {
-                Text = eEvent.Result?.Value?.Title,
-                Url = $"/books/details/{eEvent.Result?.Value?.Id}/{eEvent?.Result?.Value?.Title.ToSlug()}"
+                Text = eEvent.Result?.Title,
+                Url = $"/books/details/{eEvent.Result?.Id}/{eEvent?.Result?.Title.ToSlug()}"
             });
 
             return Task.FromResult(0);

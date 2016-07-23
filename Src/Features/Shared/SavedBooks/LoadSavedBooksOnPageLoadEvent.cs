@@ -67,8 +67,4 @@ namespace BookWorm.Web.Features.Shared.SavedBooks
             contextStore.Set(Key, values);
         }
     }
-
-    public interface IRequireSavedItems
-    {
-    }
 }
