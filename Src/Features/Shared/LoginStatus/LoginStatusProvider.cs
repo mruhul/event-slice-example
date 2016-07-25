@@ -7,6 +7,8 @@ using Bolt.RequestBus;
 using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
+using Microsoft.Extensions.Options;
+using Src.Features.Shared.Settings;
 using Src.Infrastructure.Attributes;
 using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
@@ -73,19 +75,25 @@ namespace BookWorm.Web.Features.Shared.LoginStatus
         private readonly ILoginStatusContextStore context;
         private readonly IRestClient restClient;
         private readonly ILogger logger;
+        private readonly IOptions<ApiSettings> settings;
 
-        public LoadLoginStatusOnPageLoadEventHandler(ILoginStatusContextStore context, IRestClient restClient, ILogger logger)
+        public LoadLoginStatusOnPageLoadEventHandler(ILoginStatusContextStore context, 
+            IRestClient restClient, 
+            ILogger logger,
+            IOptions<ApiSettings> settings)
         {
             this.context = context;
             this.restClient = restClient;
             this.logger = logger;
+            this.settings = settings;
         }
 
         public async Task HandleAsync(T eEvent)
         {
             if(!(eEvent is BookWorm.Web.Features.Shared.Events.IPageRequestedEvent)) return ;
 
-            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/users/{0}", "dummyid")
+            var response = await ErrorSafe.WithLogger(logger)
+                .ExecuteAsync(() => restClient.For($"{settings.Value.BaseUrl}/users/{0}", "dummyid")
                 .AcceptJson()
                 .RetryOnFailure(2)
                 .Timeout(1000)

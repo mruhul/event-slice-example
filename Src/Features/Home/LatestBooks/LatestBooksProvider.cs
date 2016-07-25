@@ -7,6 +7,8 @@ using Bolt.RequestBus;
 using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
+using Microsoft.Extensions.Options;
+using Src.Features.Shared.Settings;
 using Src.Infrastructure.Attributes;
 using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
@@ -26,12 +28,17 @@ namespace BookWorm.Web.Features.Home.CategoryMenu
         private readonly IContextStore context;
         private readonly IRestClient restClient;
         private readonly ILogger logger;
+        private readonly IOptions<ApiSettings> settings;
 
-        public LatestBooksProvider(IContextStore context, IRestClient restClient, ILogger logger)
+        public LatestBooksProvider(IContextStore context, 
+            IRestClient restClient, 
+            ILogger logger,
+            IOptions<ApiSettings> settings)
         {
             this.context = context;
             this.restClient = restClient;
             this.logger = logger;
+            this.settings = settings;
         }
 
         public IEnumerable<BookDto> Get()
@@ -41,7 +48,8 @@ namespace BookWorm.Web.Features.Home.CategoryMenu
 
         public async Task HandleAsync(HomePageRequestedEvent eEvent)
         {
-            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/latest")
+            var response = await ErrorSafe.WithLogger(logger)
+                            .ExecuteAsync(() => restClient.For($"{settings.Value.BaseUrl}/books/latest")
                             .AcceptJson()
                             .Timeout(1000)
                             .RetryOnFailure(2)

@@ -16,6 +16,7 @@
     "Newtonsoft.Json": "8.0.3",
     "NLog.Extensions.Logging": "1.0.0-rc2-final-2016-05-21",
     "System.Net.Http": "4.0.1-rc2-24027",
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0-rc2-final"
   },
@@ -34,7 +35,7 @@
     	"Bolt.Serializer": "1.0.0.0",
     	"Bolt.Common.Extensions": "1.0.4",
     	"Bolt.Logger": "1.0.0.1",
-    	"Bolt.Logger.NLog": "1.0.0.1"
+        "Bolt.Logger.NLog": "1.0.0.1"
       }
     }
   }

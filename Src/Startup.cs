@@ -17,16 +17,34 @@ using NLog.Config;
 using Src.Infrastructure.StartUpTasks;
 using Src.Infrastructure.Stores;
 using NLog.Extensions.Logging;
+using Src.Features.Shared.Settings;
 
 namespace BookWorm.Web
 {
     public class Startup
     {
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder();
+            builder
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
+
+        }
+
         public IConfigurationRoot Configuration { get; private set; }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddOptions();
+
+            services.Configure<ApiSettings>(Configuration.GetSection("ApiSettings"));
 
             services.Configure<RazorViewEngineOptions>(options =>
             {
@@ -70,14 +88,7 @@ namespace BookWorm.Web
 
             loggerFactory.CreateLogger<Startup>().LogError("Configuration started");
 
-            var builder = new ConfigurationBuilder();
-            builder.AddJsonFile("appsettings.json")
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-
-            Configuration = builder.Build();
-
+            
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {

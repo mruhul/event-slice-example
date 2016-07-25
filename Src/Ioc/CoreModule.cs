@@ -24,7 +24,7 @@ namespace Src.Ioc
             .SingleInstance();
 
             builder.Register(x => Bolt.Logger.NLog.LoggerFactory.Create(typeof(Startup)))
-                .As<Bolt.Logger.ILogger>()
+                .As<Bolt.Logger.ILogger>() 
                 .SingleInstance();
 
             builder.RegisterGeneric(typeof(BookWorm.Web.Features.Shared.CategoryMenu.LoadCategoryMenuOnPageLoadEventHandler<>)).As(typeof(Bolt.RequestBus.IAsyncEventHandler<>));

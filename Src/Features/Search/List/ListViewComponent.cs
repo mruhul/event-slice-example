@@ -6,6 +6,7 @@ using Bolt.Common.Extensions;
 using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RestClient;
+using Bolt.RestClient.Builders;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
 using BookWorm.Web.Features.Search;
@@ -13,7 +14,9 @@ using BookWorm.Web.Features.Shared.Cart;
 using BookWorm.Web.Features.Shared.CategoryMenu;
 using BookWorm.Web.Features.Shared.SavedBooks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Src.Features.Shared.CategoryMenu;
+using Src.Features.Shared.Settings;
 using Src.Infrastructure.Attributes;
 using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
@@ -100,20 +103,23 @@ namespace BookWorm.Web.Features.Search.List
         private readonly IBooksListProvider provider;
         private readonly IRestClient restClient;
         private readonly ILogger logger;
+        private readonly IOptions<ApiSettings> settings;
 
         public LoadBooksOnSearchPageRequestedEventHandler(IBooksListProvider provider, 
             IRestClient restClient,
-            ILogger logger)
+            ILogger logger,
+            IOptions<ApiSettings> settings)
         {
             this.provider = provider;
             this.restClient = restClient;
             this.logger = logger;
+            this.settings = settings;
         }
 
         public async Task HandleAsync(SearchPageRequestedEvent eEvent)
         {
             var response = await ErrorSafe.WithLogger(logger)
-                .ExecuteAsync(() => restClient.For("http://localhost:5051/v1/books/list/{0}", eEvent.Category)
+                .ExecuteAsync(() => restClient.For(UrlBuilder.Host(settings.Value.BaseUrl).Route("/books/list/{0}", eEvent.Category))
                     .AcceptJson()
                     .Timeout(1000)
                     .RetryOnFailure(2)

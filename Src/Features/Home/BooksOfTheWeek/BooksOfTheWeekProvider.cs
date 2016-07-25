@@ -8,7 +8,8 @@ using Bolt.RestClient;
 using Bolt.RestClient.Builders;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
-using Src.Features.Home.BooksOfTheWeek;
+using Microsoft.Extensions.Options;
+using Src.Features.Shared.Settings;
 using Src.Infrastructure.Attributes;
 using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
@@ -26,12 +27,12 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
     {
         private readonly ILogger logger;
         private readonly IBooksOfTheWeekProvider provider;
-        private readonly IBooksOfTheWeekSettings settings;
+        private readonly IOptions<ApiSettings> settings;
         private readonly IRestClient restClient;
 
         public LoadBooksOfTheWeekOnPageLoadEventHandler(ILogger logger,
             IBooksOfTheWeekProvider provider, 
-            IBooksOfTheWeekSettings settings, 
+            IOptions<ApiSettings> settings, 
             IRestClient restClient)
         {
             this.logger = logger;
@@ -43,7 +44,7 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
         public async Task HandleAsync(HomePageRequestedEvent eEvent)
         {
             var response = await ErrorSafe.WithLogger(logger)
-                .ExecuteAsync(() => restClient.For(UrlBuilder.Host(settings.Url).Route("books/featured"))
+                .ExecuteAsync(() => restClient.For(UrlBuilder.Host(settings.Value.BaseUrl).Route("books/featured"))
                     .AcceptJson()
                     .Timeout(1000)
                     .RetryOnFailure(2)

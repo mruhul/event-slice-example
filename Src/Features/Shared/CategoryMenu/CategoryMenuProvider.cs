@@ -6,6 +6,8 @@ using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RestClient;
 using Bolt.RestClient.Extensions;
+using Microsoft.Extensions.Options;
+using Src.Features.Shared.Settings;
 using Src.Infrastructure.Attributes;
 using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
@@ -66,19 +68,25 @@ namespace BookWorm.Web.Features.Shared.CategoryMenu
         private readonly ICategoryMenuContextStore context;
         private readonly IRestClient restClient;
         private readonly ILogger logger;
+        private readonly IOptions<ApiSettings> settings;
 
-        public LoadCategoryMenuOnPageLoadEventHandler(ICategoryMenuContextStore context, IRestClient restClient, ILogger logger)
+        public LoadCategoryMenuOnPageLoadEventHandler(ICategoryMenuContextStore context, 
+            IRestClient restClient, 
+            ILogger logger,
+            IOptions<ApiSettings> settings)
         {
             this.context = context;
             this.restClient = restClient;
             this.logger = logger;
+            this.settings = settings;
         }
 
         public async Task HandleAsync(T eEvent)
         {
             if(!(eEvent is IRequireCategoryMenu)) return;
 
-            var response = await ErrorSafe.WithLogger(logger).ExecuteAsync(() => restClient.For("http://localhost:5051/v1/categories")
+            var response = await ErrorSafe.WithLogger(logger)
+                .ExecuteAsync(() => restClient.For($"{settings.Value.BaseUrl}/categories")
                 .AcceptJson()
                 .RetryOnFailure(2)
                 .Timeout(1000)

@@ -9,3 +9,5 @@ bin
 obj
 .vs
 .vs
+.vs
+project.lock.json
