@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bolt.Common.Extensions;
 using Bolt.Logger;
 using Bolt.RequestBus;
 using Bolt.RestClient;
 using Bolt.RestClient.Builders;
 using Bolt.RestClient.Extensions;
 using BookWorm.Api;
+using BookWorm.Web.Features.Shared.SavedBooks;
 using Microsoft.Extensions.Options;
 using Src.Features.Shared.Settings;
 using Src.Infrastructure.Attributes;
@@ -59,16 +61,25 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
     public class BooksOfTheWeekProvider : IBooksOfTheWeekProvider
     {
         private readonly IContextStore context;
+        private readonly ISavedItemsProvider savedItemsProvider;
         private const string Key = "BooksOfTheWeekProvider:Get";
 
-        public BooksOfTheWeekProvider(IContextStore context)
+        public BooksOfTheWeekProvider(IContextStore context, ISavedItemsProvider savedItemsProvider)
         {
             this.context = context;
+            this.savedItemsProvider = savedItemsProvider;
         }
 
         public IEnumerable<BookDto> Get()
         {
-            return context.Get<IEnumerable<BookDto>>(Key) ?? Enumerable.Empty<BookDto>();
+            var savedIds = savedItemsProvider.Get();
+            return context.Get<IEnumerable<BookDto>>(Key)
+                .NullSafe()
+                .Select(x =>
+                {
+                    x.IsSaved = savedIds.Any(id => id == x.Id);
+                    return x;
+                });
         }
 
         public void Set(IEnumerable<BookDto> value)

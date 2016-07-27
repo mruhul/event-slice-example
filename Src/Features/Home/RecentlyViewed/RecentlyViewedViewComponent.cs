@@ -6,24 +6,16 @@ namespace BookWorm.Web.Features.Home.RecentlyViewed
 {
     public class RecentlyViewedViewComponent : ViewComponent
     {
-        private IRecentlyViewedProvider provider;
-        private readonly ISavedItemsProvider savedItemsProvider;
-
+        private readonly IRecentlyViewedProvider provider;
+        
         public RecentlyViewedViewComponent(IRecentlyViewedProvider provider, ISavedItemsProvider savedItemsProvider)
         {
             this.provider = provider;
-            this.savedItemsProvider = savedItemsProvider;
         }
 
         public IViewComponentResult Invoke()
         {
-            var savedItems = savedItemsProvider.Get();
-
-            var vm = provider.Get().Select(x =>
-            {
-                x.IsSaved = savedItems?.Any(id => x.Id == id) ?? false;
-                return x;
-            });
+            var vm = provider.Get();
 
             return View("~/Features/Home/RecentlyViewed/Views/RecentlyViewed.cshtml", vm);
         } 

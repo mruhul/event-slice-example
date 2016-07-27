@@ -9,18 +9,18 @@ namespace BookWorm.Web.Features.Home.BooksOfTheWeek
 {
     public class BooksOfTheWeekViewComponent : ViewComponent
     {
-        private readonly IRequestBus bus;
+        private readonly IBooksOfTheWeekProvider provider;
 
-        public BooksOfTheWeekViewComponent(IRequestBus bus)
+        public BooksOfTheWeekViewComponent(IBooksOfTheWeekProvider provider)
         {
-            this.bus = bus;
+            this.provider = provider;
         }
 
         public IViewComponentResult Invoke()
         {
-            var vm = bus.Send<BooksOfTheWeekQuery, IEnumerable<BookDto>>(new BooksOfTheWeekQuery());
+            var vm = provider.Get();
 
-            return View("~/Features/Home/BooksOfTheWeek/Views/BooksOfTheWeek.cshtml", vm.Value);
+            return View("~/Features/Home/BooksOfTheWeek/Views/BooksOfTheWeek.cshtml", vm);
         } 
     }
 
