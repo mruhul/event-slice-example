@@ -1,16 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Bolt.Logger;
-using Bolt.RequestBus;
-using Bolt.RestClient;
-using Bolt.RestClient.Extensions;
+using Bolt.Common.Extensions;
 using BookWorm.Api;
-using Microsoft.Extensions.Options;
-using Src.Features.Shared.Settings;
+using BookWorm.Web.Features.Shared.SavedBooks;
 using Src.Infrastructure.Attributes;
-using Src.Infrastructure.ErrorSafeHelpers;
 using Src.Infrastructure.Stores;
 
 namespace BookWorm.Web.Features.Home.CategoryMenu
@@ -18,44 +12,37 @@ namespace BookWorm.Web.Features.Home.CategoryMenu
     public interface ILatestBooksProvider
     {
         IEnumerable<BookDto> Get();
+        void Set(IEnumerable<BookDto> books);
     }
 
-
     [AutoBind]
-    public class LatestBooksProvider : ILatestBooksProvider, IAsyncEventHandler<HomePageRequestedEvent>
+    public class LatestBooksProvider : ILatestBooksProvider
     {
+        private readonly IContextStore store;
+        private readonly ISavedItemsProvider savedItemsProvider;
         private const string Key = "LatestBooksProvider:LatestBooks";
-        private readonly IContextStore context;
-        private readonly IRestClient restClient;
-        private readonly ILogger logger;
-        private readonly IOptions<ApiSettings> settings;
 
-        public LatestBooksProvider(IContextStore context, 
-            IRestClient restClient, 
-            ILogger logger,
-            IOptions<ApiSettings> settings)
+        public LatestBooksProvider(IContextStore store, ISavedItemsProvider savedItemsProvider)
         {
-            this.context = context;
-            this.restClient = restClient;
-            this.logger = logger;
-            this.settings = settings;
+            this.store = store;
+            this.savedItemsProvider = savedItemsProvider;
         }
 
         public IEnumerable<BookDto> Get()
         {
-            return context.Get<IEnumerable<BookDto>>(Key) ?? Enumerable.Empty<BookDto>();
+            var savedIds = savedItemsProvider.Get();
+            return store.Get<IEnumerable<BookDto>>(Key)
+                .NullSafe()
+                .Select(x =>
+                {
+                    x.IsSaved = savedIds.Any(id => id == x.Id);
+                    return x;
+                });
         }
 
-        public async Task HandleAsync(HomePageRequestedEvent eEvent)
+        public void Set(IEnumerable<BookDto> books)
         {
-            var response = await ErrorSafe.WithLogger(logger)
-                            .ExecuteAsync(() => restClient.For($"{settings.Value.BaseUrl}/books/latest")
-                            .AcceptJson()
-                            .Timeout(1000)
-                            .RetryOnFailure(2)
-                            .GetAsync<IEnumerable<BookDto>>());
-
-            context.Set(Key, response.Value?.Output);
+            store.Set(Key, books);
         }
     }
 }
